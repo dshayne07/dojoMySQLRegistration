@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration</title>
+</head>
+<body>
+    <fieldset>
+        <legend>Register</legend>
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+            {% for message in messages %}
+                <p style="color:red;">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if get_flashed_messages(category_filter=["success"])[0] == "success" %}
+                <p style="color:green;">Thanks for submitting your information.</p>
+        {% endif %}
+        <form method="post" action="/register">
+            
+            <label>First Name: <input type="text" name="fname" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['fname']}}{% endif %}" placeholder="First name" /></label><br><br>
+            <label>Last Name: <input type="text" name="lname" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['lname']}}{% endif %}" placeholder="Last name" /></label><br><br>
+            <label>Email: <input type="text" name="email" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['email']}}{% endif %}" placeholder="Email Address" /></label><br><br>
+            <label>Password: <input type="password" name="password" placeholder="Password" /></label><br><br>
+            <label>Confirm Password: <input type="password" name="confirmPassword" placeholder="Confirm Password" /></label><br><br>
+            <input type="submit" value="Register" />
+                
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Login</legend>
+        <form method="post" action="/login">
+        
+            <label>Email: <input type="text" name="email" placeholder="Email Address" /></label><br><br>
+            <label>Password: <input type="password" name="password" placeholder="Password" /></label><br><br>
+            <input type="submit" value="Login" />
+                
+        </form>
+    </fieldset>    
+</body>
+</html>
