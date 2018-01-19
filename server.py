@@ -77,14 +77,13 @@ def login():
         password = md5.new(request.form['password']).hexdigest()
         query = "SELECT * FROM users WHERE email = :email AND password = :password"
         user = mysql.query_db(query, request.form)
-        print user
         if len(user) > 0:
+            flash(request.form, "data")
             session["uid"] = request.form['email']
             return redirect('/wall')
         else:
             flash("Invalid username/password", "error")
-            return redirect('/')
-
+    flash(request.form, "data")
     return redirect('/')
 
 @app.route("/wall")
@@ -98,5 +97,15 @@ def wall():
 def logout():
     session.clear()
     return redirect('/')
+
+@app.route("/email/<email>")
+def email(email):
+    query = "SELECT password FROM users WHERE email = '"+email+"'"
+    user = mysql.query_db(query)
+    password = "That email didn't exist!"
+    if len(user) > 0:
+        password = user[0]['password']
+    return render_template('email.html', email=email, password=password)
+
 
 app.run(debug=True)

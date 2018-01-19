@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color:gainsboro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registration</title>
 </head>
-<body>
-    <fieldset>
-        <legend>Register</legend>
-        {% with messages = get_flashed_messages(category_filter=["error"]) %}
-            {% if messages %}
+<body style="width:950px; margin-left:auto; margin-right:auto; padding-top:40px">
+    {% with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+        <fieldset style="width:400px; margin-left:auto; margin-right:auto; margin-bottom:10px;">
+            <legend>Errors</legend>
             {% for message in messages %}
-                <p style="color:red;">{{message}}</p>
+                <p style="font-weight:bold; margin: 2px; color:red;">{{message}}</p>
             {% endfor %}
-            {% endif %}
-        {% endwith %}
-        {% if get_flashed_messages(category_filter=["success"])[0] == "success" %}
-                <p style="color:green;">Thanks for submitting your information.</p>
+        </fieldset>
         {% endif %}
+    {% endwith %}
+    {% if get_flashed_messages(category_filter=["success"])[0] == "success" %}
+            <p style="color:green;">Thanks for submitting your information.</p>
+    {% endif %}
+    <fieldset style="width:400px; margin-left:auto; margin-right:auto;">
+        <legend>Register</legend>
         <form method="post" action="/register">
             
             <label>First Name: <input type="text" name="fname" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['fname']}}{% endif %}" placeholder="First name" /></label><br><br>
@@ -30,15 +33,19 @@
                 
         </form>
     </fieldset>
-    <fieldset>
+    <fieldset style="width:400px; margin-left:auto; margin-right:auto; margin-top:10px;">
         <legend>Login</legend>
         <form method="post" action="/login">
         
             <label>Email: <input type="text" name="email" placeholder="Email Address" /></label><br><br>
-            <label>Password: <input type="password" name="password" placeholder="Password" /></label><br><br>
+            <label>Password: <input type="password" name="password" placeholder="Password" /></label><br>
+                {% if get_flashed_messages(category_filter=['error'])[0] == "Invalid username/password" %}
+                    <br><a href="/email/{{get_flashed_messages(category_filter=['data'])[0]['email']}}">Forgot password?</a><br>
+                {% endif %}
+            <br>
             <input type="submit" value="Login" />
                 
         </form>
-    </fieldset>    
+    </fieldset>   
 </body>
 </html>
