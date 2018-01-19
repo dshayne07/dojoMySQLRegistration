@@ -26,24 +26,23 @@
             
             <label>First Name: <input type="text" name="fname" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['fname']}}{% endif %}" placeholder="First name" /></label><br><br>
             <label>Last Name: <input type="text" name="lname" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['lname']}}{% endif %}" placeholder="Last name" /></label><br><br>
-            <label>Email: <input type="text" name="email" value="{% if get_flashed_messages(category_filter=['data']) %}{{get_flashed_messages(category_filter=['data'])[0]['email']}}{% endif %}" placeholder="Email Address" /></label><br><br>
+            <label>Email: <input type="text" name="email" value="{% if get_flashed_messages(category_filter=['data']) and get_flashed_messages(category_filter=['error'])[0] != "Invalid username/password" %}{{get_flashed_messages(category_filter=['data'])[0]['email']}}{% endif %}" placeholder="Email Address" /></label><br><br>
             <label>Password: <input type="password" name="password" placeholder="Password" /></label><br><br>
             <label>Confirm Password: <input type="password" name="confirmPassword" placeholder="Confirm Password" /></label><br><br>
-            <input type="submit" value="Register" />
-                
+            <input type="submit" value="Register" style="padding:5px" />
         </form>
     </fieldset>
     <fieldset style="width:400px; margin-left:auto; margin-right:auto; margin-top:10px;">
         <legend>Login</legend>
         <form method="post" action="/login">
         
-            <label>Email: <input type="text" name="email" placeholder="Email Address" /></label><br><br>
+            <label>Email: <input type="text" name="email" value="{% if get_flashed_messages(category_filter=['data']) and get_flashed_messages(category_filter=['login'])[0] != True %}{{get_flashed_messages(category_filter=['data'])[0]['email']}}{% endif %}"  placeholder="Email Address" /></label><br><br>
             <label>Password: <input type="password" name="password" placeholder="Password" /></label><br>
                 {% if get_flashed_messages(category_filter=['error'])[0] == "Invalid username/password" %}
                     <br><a href="/email/{{get_flashed_messages(category_filter=['data'])[0]['email']}}">Forgot password?</a><br>
                 {% endif %}
             <br>
-            <input type="submit" value="Login" />
+            <input type="submit" value="Login" style="padding:5px" />
                 
         </form>
     </fieldset>   

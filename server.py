@@ -58,7 +58,7 @@ def register():
         session.clear()
         flash("success", "success")
         return redirect('/')
-
+    flash(True, "login")
     flash(request.form, "data")
 
     return redirect('/') # either way the application should return to the index and display the message
